@@ -1,6 +1,6 @@
 # Ada
 
-Material de curso sobre Node.js, TypeScript e Express, organizado em duas aulas com projetos de exemplo.
+Material de curso sobre Node.js, TypeScript e Express, organizado aulas com projetos de exemplo.
 
 ## Estrutura do repositório
 
