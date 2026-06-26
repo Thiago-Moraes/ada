@@ -11,10 +11,6 @@ class ClientController {
         ]
     }
 
-    findById(id: number) {
-        return this.list.find(i => i.id === id);
-    }
-
 }
 
 export default new ClientController();
