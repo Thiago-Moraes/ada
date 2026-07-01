@@ -15,7 +15,7 @@ Estes comandos gerenciam o ambiente do terminal SQLite e são sempre precedidos 
 ## Definição de Dados (DDL)Comandos para criar, alterar e deletar a estrutura das tabelas.
 
 CREATE TABLE: Cria uma nova tabela e define suas colunas e tipos de dados.sql
-```
+```sql
 CREATE TABLE <usuarios> (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
@@ -24,42 +24,42 @@ CREATE TABLE <usuarios> (
 );
 ```
 DROP TABLE: Exclui uma tabela e todos os seus dados permanentemente.sql
-```
+```sql
 DROP TABLE usuarios;
 ```
 ## Manipulação de Dados (DML)
 Comandos para inserir, modificar e remover as informações salvas.
 
 INSERT INTO: Insere um novo registro na tabela.sql
-```
+```sql
 INSERT INTO usuarios (nome, email) VALUES ('Ana', 'ana@email.com');
 ```
 
 UPDATE: Atualiza dados existentes (use sempre com WHERE para não alterar a tabela inteira).sql
-```
+```sql
 UPDATE usuarios SET
     nome = 'Ana Silva',
     email = 'ana@email.com.br'
 WHERE created_at = '2026-06-29';
 ```
 DELETE FROM: Apaga registros específicos.sql
-```
+```sql
 DELETE FROM usuarios WHERE id = 1;
 ```
 ## Consulta de Dados (DQL)
 Comandos para buscar e filtrar as informações do banco.
 
 SELECT: Seleciona colunas e registros.sql
-```
+```sql
 SELECT * FROM usuarios; -- Busca todos os dados
 SELECT nome FROM usuarios WHERE id > 5; -- Filtra por condição
 ```
-ORDER BY: Ordena o resultado por uma coluna (ex: ASC para crescente, DESC para decrescente).
-```
+ORDER BY: Ordena o resultado por uma coluna (ex: ASC para crescente, DESC para decrescente).sql
+```sql
 ORDER BY nome ASC;
 ```
-LIMIT: Restringe o número de linhas retornadas na consulta.
-```
+LIMIT: Restringe o número de linhas retornadas na consulta.sql
+```sql
 LIMIT 10;
 ```
 
@@ -70,12 +70,12 @@ Os comandos acima funcionam diretamente no terminal do SQLite ou dentro de arqui
 No nodejs, os comandos acima funcionam da mesma forma, mas são executados através de funções do pacote sqlite3.
 
 ## Instalacao do sqlite3 no nodejs
-```
+```bash
 npm install sqlite3
 ```
 
 ## Abrindo o banco de dados no nodejs
-```
+```ts
 import * as sqlite3 from 'sqlite3';
 // Ativa o modo verbose para mensagens de depuração mais detalhadas
 const sqlite3Client = sqlite3.verbose();
@@ -90,7 +90,7 @@ const db = new sqlite3Client.Database('./minha_base.db', (err: Error | null) => 
 ```
 
 ## Criando uma tabela no nodejs
-```
+```ts
 db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS usuarios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -101,7 +101,7 @@ db.serialize(() => {
 ```
 
 ## Inserindo dados no nodejs
-```
+```ts
 db.run(`INSERT INTO usuarios (nome, email) VALUES (?, ?)`, ['Ana', 'ana@email.com'], function (err) {
     if (err) {
         console.error('Erro ao inserir:', err.message);
@@ -112,7 +112,7 @@ db.run(`INSERT INTO usuarios (nome, email) VALUES (?, ?)`, ['Ana', 'ana@email.co
 ```
 
 ## Buscando dados no nodejs
-```
+```ts
 db.all(`SELECT * FROM usuarios`, [], (err, rows) => {
     if (err) {
         console.error('Erro ao buscar:', err.message);
@@ -125,7 +125,7 @@ db.all(`SELECT * FROM usuarios`, [], (err, rows) => {
 ```
 
 ## Fechando a conexão
-```
+```ts
 db.close((err) => {
     if (err) {
         console.error('Erro ao fechar:', err.message);
@@ -136,7 +136,7 @@ db.close((err) => {
 ```
 
 ## Exemplo completo de uso
-```
+```ts
 const sqlite3 = require('sqlite3').verbose();
 
 // Abre o banco de dados
