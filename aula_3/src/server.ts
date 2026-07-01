@@ -1,8 +1,11 @@
 import express, { type Request, type Response } from 'express';
 import router from '../routes/index.ts';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
-const PORT = 3333;
+const PORT = process.env.PORT || 3333;
 
 app.use(express.json());
 app.use(router);

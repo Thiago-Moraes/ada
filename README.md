@@ -4,8 +4,9 @@ Material de curso sobre Node.js, TypeScript e Express, organizado aulas com proj
 
 ## Estrutura do repositório
 
-- `aula_1/`: projeto inicial com um servidor Express simples em TypeScript.
-- `aula_2/`: projeto com estrutura MVC simplificada, rotas, controller e middleware.
+- [aula_1/](./aula_1): projeto inicial com um servidor Express simples em TypeScript.
+- [aula_2/](./aula_2): projeto com estrutura MVC simplificada, rotas, controller e middleware.
+- [aula_3/](./aula_3): projeto com estrutura MVC, rotas, controller, DAO, infra e variáveis de ambiente.
 - `apresentacoes/`: materiais de apresentação.
 - `passo-a-passo.md`: guia passo a passo para criar um projeto Node.js com TypeScript e Express.
 
@@ -47,6 +48,22 @@ Pontos principais:
 
 - `GET /`: rota de saudação padrão.
 - `GET /client`: rota de clientes em `aula_2`.
+
+## Aula 3
+
+Projeto com estrutura MVC expandida, DAO e uso de variáveis de ambiente (`dotenv`):
+
+- `aula_3/src/server.ts`: servidor Express usando `dotenv` e middlewares.
+- `aula_3/routes/`, `aula_3/controllers/`, `aula_3/dao/`, `aula_3/infra/`: estrutura de pastas do padrão MVC.
+- `aula_3/.env`: arquivo para configuração das variáveis de ambiente.
+
+Como executar:
+
+```bash
+cd aula_3
+npm install
+npm run dev
+```
 
 ## Dependências
 
