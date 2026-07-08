@@ -35,4 +35,16 @@ router.post('/create', async (req: Request, resp: Response) => {
     }
 });
 
+router.put('/update/:id', async (req: Request, resp: Response) => {
+    try {
+        const id = Number(req.params.id);
+        const data = req.body.data;
+        const returnData = await ControllerTodo.updateActivityStartDate(id, data);
+        resp.json(returnData);
+    } catch (error) {
+        console.error(error);
+        resp.status(500).json({ error: 'Internal server error' });
+    }
+})
+
 export default router;
