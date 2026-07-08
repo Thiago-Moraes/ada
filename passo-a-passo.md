@@ -224,3 +224,7 @@ Agora instalaremos o Express (framework web) e suas respectivas definições de 
    ```bash
    npm run start
    ```
+
+6. **Outros tutoriais**
+   - [Instalar wsl](https://learn.microsoft.com/pt-br/windows/wsl/install)
+   - [Comandos básicos do linux](https://linuxjourney.com/pt)
