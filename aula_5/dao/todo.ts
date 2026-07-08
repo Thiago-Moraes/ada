@@ -6,24 +6,25 @@ class TodoDAO extends Connection {
         return db?.all('select * from activities');
     }
 
-    async find(id) {
+    async find(id: number) {
         const db = await this.db;
         return db?.get(`select * from activities where id = ?`, [id]);
 
     }
 
-    async create(data) {
-        /* {
-            "data": {
-                "description": 'tarefa 1'
-            }
-        } */
-
+    async create(data: { description: string }) {
         const db = await this.db;
         return db?.run(`insert into activities(description) values(?)`, [data.description]);
-        // "update activities set description = ? where id = ?";
-        // "update activities set status = 1, start_date = ? where id = ?";
-        // "update activities set status = 2, finish_date = ? where id = ?";
+    }
+
+    async updateStartDate(id: number, data: { startDate: string }) {
+        const db = await this.db;
+        return db?.run(`update activities set start_date = ? where id = ?`, [data.startDate, id]);
+    }
+
+    async updateFinishDate(id: number, data: { finishDate: string }) {
+        const db = await this.db;
+        return db?.run(`update activities set finish_date = ? where id = ?`, [data.finishDate, id]);
     }
 }
 

@@ -15,9 +15,7 @@ router.get('/list', async (req: Request, resp: Response) => {
 
 router.get('/find/:id', async (req: Request, resp: Response) => {
     try {
-        console.log({ params: req.params });
-
-        const id = req.params.id;
+        const id = Number(req.params.id);
         const data = await ControllerTodo.find(id);
         resp.json(data);
     } catch (error) {
