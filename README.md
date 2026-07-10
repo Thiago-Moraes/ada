@@ -19,6 +19,7 @@ Ada/
 ├── aula_4/              # Material conceitual: Fundamentos de Bancos de Dados e comandos SQLite
 ├── aula_5/              # Projeto com persistência: Integração do SQLite e camada DAO
 ├── aula_6/              # Projeto estruturado com Entidades de domínio e autovalidação de dados
+├── aula_7/              # Projeto seguro: Autenticação JWT e Middlewares no Express
 ├── passo-a-passo.md     # Guia detalhado para configurar o ambiente Node/TS do absoluto zero
 └── prompt_gerador_readme.md # Instruções e template para estruturação dos READMEs
 ```
@@ -35,6 +36,7 @@ Navegue por cada aula para aprender os conceitos práticos correspondentes:
 4. **[Aula 4: Fundamentos de Bancos de Dados e SQLite](./aula_4)**: Domine a teoria de modelagem de dados (MER/DER), as regras de Normalização de Dados (1FN, 2FN e 3FN) e aprenda os principais comandos SQL (DDL, DML e DQL).
 5. **[Aula 5: Persistência de Dados com SQLite](./aula_5)**: Integre a API Express a um banco de dados real. Aprenda o padrão DAO (Data Access Object) para efetuar buscas, listagens, inserções de tarefas e endpoints de atualização (`PUT`).
 6. **[Aula 6: Validação de Regras de Negócio com Entidades](./aula_6)**: Entenda como proteger a integridade do banco de dados centralizando regras de negócio em classes/Entidades auto-validáveis (como `Activity`).
+7. **[Aula 7: Autenticação com JWT e Middlewares](./aula_7)**: Entenda o papel dos Middlewares no ciclo de requisição/resposta do Express, implemente autenticação via JWT, assine tokens no login e proteja endpoints sensíveis de consulta.
 
 ---
 

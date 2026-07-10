@@ -1,46 +1,51 @@
-# Aula 6: Validação de Regras de Negócio com Entidades
+# Aula 7: Autenticação com JWT e Middlewares
 
-Olá, aluno! Nesta sexta aula, demos um passo fundamental em direção ao desenvolvimento de softwares robustos e profissionais, aproximando-nos de boas práticas de arquitetura. Aprendemos sobre a modelagem de **Entidades** e a centralização de **Regras de Negócio** dentro do nosso domínio.
+Olá, aluno! Nesta sétima aula, avançamos significativamente na segurança e no controle de acesso da nossa API. O nosso objetivo principal foi entender como proteger rotas sensíveis utilizando o padrão de tokens de acesso **JWT (JSON Web Token)** e o conceito de **Middlewares** no Express.
 
-Em vez de permitir que dados inconsistentes cheguem ao nosso banco de dados, criamos a classe **`Activity`** (`Entities/Activities.ts`). Ela é responsável por se autovalidar no momento em que é instanciada (no construtor), garantindo que a descrição da tarefa nunca seja vazia e que a data de início nunca seja maior do que a data de término. Com isso, protegemos a integridade das informações do nosso sistema diretamente no domínio da aplicação.
+Com isso, aprendemos a implementar um fluxo completo de autenticação: desde a validação de credenciais em um endpoint de login (`POST /login`), a geração e assinatura de um token criptografado com informações do usuário, até a interceptação de requisições de rotas protegidas (`GET /list`) para validar se o usuário possui permissão para acessar os dados.
 
 ---
 
 ## 📂 Estrutura do Projeto
 
-Abaixo apresentamos a árvore de diretórios e arquivos desta aula, agora contando com a nossa pasta de Entidades:
+Abaixo apresentamos a árvore de diretórios e arquivos desta aula, incluindo a nova pasta de Middlewares:
 
 ```text
-aula_6/
+aula_7/
 ├── controllers/
-│   └── ControllerTodo.ts  # Orquestra as requisições de criação e listagem usando a classe Activity
+│   └── ControllerTodo.ts         # Orquestra as ações de manipulação de Atividades
 ├── dao/
-│   ├── Connection.ts      # Gerencia a conexão com o banco SQLite
-│   └── todo.ts            # Recebe a Entidade Activity estruturada e a persiste no banco de dados
+│   ├── Connection.ts             # Gerencia a conexão com o banco SQLite
+│   └── todo.ts                   # Persiste e recupera os dados de Atividades no banco
 ├── Entities/
-│   └── Activities.ts      # Classe de domínio que representa uma Atividade e valida suas regras
+│   └── Activities.ts             # Classe de domínio que representa uma Atividade
 ├── infra/
-│   └── database.db        # Arquivo de banco de dados SQLite com a tabela activities
+│   └── database.db               # Banco de dados SQLite contendo a tabela de atividades
+├── middleware/
+│   ├── admAccessMiddleware.ts    # Middleware para controle de acesso administrativo
+│   └── authmiddleware.ts         # Middleware para verificação e validação de tokens JWT
 ├── routes/
-│   └── index.ts           # Roteador responsável por receber dados brutos e instanciar a Entidade Activity
+│   └── index.ts                  # Define as rotas (incluindo /login e rotas protegidas por middleware)
 ├── src/
-│   └── server.ts          # Inicialização do servidor Express acoplado ao dotenv e rotas
-├── .env                   # Configura a variável DATABASE_PATH apontando para o arquivo .db
-├── exercicio.md           # Referência conceitual de exercícios de banco de dados
-├── package.json           # Dependências com os drivers sqlite e sqlite3 adicionados
-├── tsconfig.json          # Configurações do compilador do TypeScript
-└── package-lock.json      # Versões exatas das dependências instaladas
+│   └── server.ts                 # Inicialização do servidor Express acoplado ao dotenv e rotas
+├── .env                          # Configura DATABASE_PATH e a chave de criptografia SECRET_KEY
+├── exercicio.md                  # Referência de exercícios propostos
+├── package.json                  # Manifesto do projeto com dependências locais
+├── tsconfig.json                 # Configurações do compilador TypeScript
+└── package-lock.json             # Registro de versões exatas das dependências instaladas
 ```
 
-* **`Entities/Activities.ts`**: Modela a classe `Activity`. Contém métodos como `validateDates` e `validateDescription`, que lançam erros caso os dados enviados na requisição violem as regras de negócio da aplicação.
-* **`routes/index.ts`**: Agora, ao criar uma atividade (`POST /create`), a rota primeiro instancia um novo objeto da classe `Activity`, disparando automaticamente as validações antes de enviar o objeto para o controlador e persistir no banco.
+* **`middleware/authmiddleware.ts`**: Intercepta a requisição, extrai o token JWT do cabeçalho `Authorization` e valida sua integridade usando a chave secreta definida no ambiente. Se for válido, permite que a requisição prossiga; caso contrário, barra o acesso retornando status `401 Unauthorized`.
+* **`routes/index.ts`**: Agora conta com uma nova rota `POST /login` para autenticar o usuário e assinar tokens JWT. Adicionalmente, aplica o `authmiddleware` na rota `GET /list` para impedir consultas sem o token apropriado.
 
 ---
 
 ## 🛠️ Comandos Utilizados
 
-* `npm install`: Instala os pacotes necessários especificados no `package.json`.
-* `npm run dev`: Inicializa o servidor monitorando alterações com `tsx watch`.
+* `npm install`: Instala todas as dependências locais declaradas no `package.json` (incluindo Express, dotenv e sqlite3).
+* `npm run dev`: Inicializa o servidor local em modo de desenvolvimento com recarregamento automático por meio do `tsx`.
+
+*Nota: Para esta aula, também fazemos uso do pacote `jsonwebtoken` (e suas tipagens `@types/jsonwebtoken`) configurado na raiz do repositório para permitir a codificação e decodificação de tokens.*
 
 ---
 
@@ -50,7 +55,7 @@ Siga o passo a passo abaixo para rodar o projeto localmente:
 
 1. Navegue até a pasta desta aula:
    ```bash
-   cd aula_6
+   cd aula_7
    ```
 
 2. Instale as dependências:
@@ -58,35 +63,38 @@ Siga o passo a passo abaixo para rodar o projeto localmente:
    npm install
    ```
 
-3. Configure o arquivo `.env` para apontar para o banco de dados:
+3. Configure o seu arquivo `.env` com a porta, caminho do banco e chave secreta para criptografia:
    ```env
    PORT=3333
    DATABASE_PATH=./infra/database.db
+   SECRET_KEY=sua_chave_secreta_segura_aqui
    ```
 
-4. Execute o projeto em modo de desenvolvimento:
+4. Execute o servidor de desenvolvimento:
    ```bash
    npm run dev
    ```
 
-5. O servidor estará ativo em `http://localhost:3333`. Tente enviar uma requisição de criação (`POST /create`) com dados inválidos para ver a validação em funcionamento:
-   * **Exemplo de Envio com Erro (Data de Início posterior ao Término)**:
+5. **Testando o fluxo de autenticação**:
+   * Tente acessar a rota de listagem diretamente (`GET http://localhost:3333/list`). O servidor retornará `401 Unauthorized` porque você ainda não está autenticado.
+   * Realize o login enviando uma requisição `POST http://localhost:3333/login` com o seguinte corpo:
      ```json
      {
        "data": {
-         "description": "Estudar Entidades",
-         "start_date": "2026-07-10",
-         "end_date": "2026-07-08"
+         "user": "thiago",
+         "password": "1234"
        }
      }
      ```
-     *O servidor lançará um erro impedindo a gravação no banco, pois a validação detectará as datas inconsistentes.*
+   * Copie o token retornado na resposta de login.
+   * Ao fazer a requisição para `GET http://localhost:3333/list`, adicione o cabeçalho `Authorization` com o valor `Bearer <seu_token_aqui>`. O acesso será liberado e você receberá a lista de tarefas normalmente.
 
 ---
 
 ## 📝 O que aprendemos nesta aula?
 
-* **Validação Orientada a Objetos**: Como usar o construtor da classe (`constructor`) para interceptar dados de entrada e validar campos obrigatórios e formatos.
-* **Integridade do Domínio**: Evitar que dados inválidos alcancem o banco de dados separando a validação sintática/semântica na camada de Entidades.
-* **Mapeamento de Dados de Entrada**: Como instanciar uma entidade a partir de dados brutos enviados pelo cliente (`req.body`) e repassá-la de forma tipada e segura para as camadas de Controller e DAO.
-* **Refatoração de DAOs**: Ajustamos o `TodoDAO` para receber a classe `Activity` em vez de tipos genéricos estruturados, garantindo conformidade com a tipagem estática do TypeScript.
+* **Conceito de Middlewares**: Entendemos o que são funções middleware no Express e como elas atuam como interceptadores no ciclo de requisição e resposta do servidor.
+* **Autenticação com JWT (JSON Web Tokens)**: Como gerar tokens assinados contendo informações criptografadas (`payload`) e tempo de expiração (`expiresIn`).
+* **Proteção de Rotas**: Como blindar rotas específicas aplicando middlewares na pilha de execução de rotas do Express.
+* **Leitura de Cabeçalhos HTTP**: Extração e processamento de informações dinâmicas vindas do cabeçalho `Authorization` (`Bearer <token>`).
+* **Uso Seguro de Chaves Secretas**: Uso do `.env` para armazenar de forma segura o segredo (`SECRET_KEY`) utilizado na criptografia e validação dos tokens.
