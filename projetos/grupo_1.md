@@ -1,7 +1,7 @@
-### Projeto Grupo 3
+### Projeto Grupo 1
 ## 1. Introdução
 Nesse a gente precisa desenvolver uma aplicação simples pra aplicar os conhecimentos adquiridos, incluindo banco de dados.
-**Exemplo**: Um sistema de inventário
+**Exemplo**: Um sistema de vitrine/showcase de produtos, que permita o cadastro e visualização de produtos.
 
 ## 2. Requisitos
 - O sistema deve ter as seguintes funcionalidades:
@@ -11,11 +11,10 @@ Nesse a gente precisa desenvolver uma aplicação simples pra aplicar os conheci
     - Buscar produtos
     - Ordenar produtos
 
-### Integrantes
-    - Júlia
-    - Victória
-    - Bruno
-    - Jéssica Gaspar
+## Integrantes
+    - Ruan
+    - Gregório
+    - Matheus
 
 ### Repositório
-[Repositório do projeto](https://github.com/juliadebonaj/companys-assets
+[Repositório do projeto](https://github.com/brightxd/Vitrine_proj

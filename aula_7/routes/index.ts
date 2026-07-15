@@ -1,32 +1,13 @@
 import { Router, type Request, type Response } from 'express';
 import ControllerTodo from '../controllers/ControllerTodo.ts';
+import ControllerLogin from '../controllers/ControllerLogin.ts';
 import Activity from '../Entities/Activities.ts';
 import authmiddleware from '../middleware/authmiddleware.ts';
-import jwt from 'jsonwebtoken';
 
 const router = Router();
 
-router.post('/login', async (req: Request, resp: Response) => {
-
-    const { data } = req.body;
-    if (data.user === 'thiago' && data.password === '1234') {
-
-        const token = jwt.sign({
-            user: data.user,
-            company: 'Ada tech',
-            function: 'Professor',
-            status: 'active',
-            iat: Date.now()
-        },
-            process.env.SECRET_KEY!,
-            {
-                expiresIn: '1h'
-
-            });
-        return resp.status(200).json({ token });
-    }
-
-    return resp.status(401).json({ message: "Usuário ou senha inválidos." });
+router.post('/login', (req: Request, resp: Response) => {
+    return ControllerLogin.login(req, resp);
 });
 
 
